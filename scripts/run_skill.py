@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Claude Agent Skill 执行脚本
-调用 Claude API 获取数据并保存到 JSON 文件
+智谱AI Agent 执行脚本
+调用智谱AI API 获取数据并保存到 JSON 文件
 """
 
 import os
@@ -11,10 +11,10 @@ from datetime import datetime
 from pathlib import Path
 
 try:
-    from anthropic import Anthropic
+    from zhipuai import ZhipuAI
 except ImportError:
-    print("错误: 未安装 anthropic 库")
-    print("请运行: pip install anthropic")
+    print("错误: 未安装 zhipuai 库")
+    print("请运行: pip install zhipuai")
     sys.exit(1)
 
 
@@ -50,40 +50,40 @@ def load_prompt_template():
     return prompt
 
 
-def run_claude_skill():
-    """执行 Claude Agent Skill 获取数据"""
+def run_zhipuai_skill():
+    """执行智谱AI Agent 获取数据"""
     # 检查 API Key
-    api_key = os.environ.get('ANTHROPIC_API_KEY')
+    api_key = os.environ.get('ZHIPUAI_API_KEY')
     if not api_key:
-        print("错误: 未设置 ANTHROPIC_API_KEY 环境变量")
-        print("请设置: export ANTHROPIC_API_KEY='your-api-key'")
+        print("错误: 未设置 ZHIPUAI_API_KEY 环境变量")
+        print("请设置: export ZHIPUAI_API_KEY='your-api-key'")
         sys.exit(1)
 
-    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 开始执行 Claude Agent Skill...")
+    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 开始执行智谱AI Agent...")
 
     try:
-        # 初始化 Claude 客户端
-        client = Anthropic(api_key=api_key)
+        # 初始化智谱AI客户端
+        client = ZhipuAI(api_key=api_key)
 
         # 获取 prompt
         prompt = load_prompt_template()
 
-        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 正在调用 Claude API...")
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] 正在调用智谱AI API...")
 
-        # 调用 Claude API
-        message = client.messages.create(
-            model="claude-sonnet-4-20250514",
+        # 调用智谱AI API (使用 GLM-4 模型)
+        response = client.chat.completions.create(
+            model="glm-4-plus",  # 或使用 "glm-4"
+            messages=[
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7,
             max_tokens=4096,
-            messages=[{
-                "role": "user",
-                "content": prompt
-            }]
         )
 
         # 解析响应
-        content = message.content[0].text
+        content = response.choices[0].message.content
 
-        # 尝试提取 JSON（Claude 可能在 JSON 前后添加文字）
+        # 尝试提取 JSON（智谱AI可能在 JSON 前后添加文字）
         import re
         json_match = re.search(r'```json\s*(.*?)\s*```', content, re.DOTALL)
         if json_match:
@@ -99,6 +99,7 @@ def run_claude_skill():
         results = {
             "timestamp": datetime.now().isoformat(),
             "status": "success",
+            "model": "glm-4-plus",
             "data": result_data
         }
 
@@ -132,7 +133,7 @@ def run_claude_skill():
 
     except json.JSONDecodeError as e:
         print(f"错误: JSON 解析失败 - {e}")
-        print(f"Claude 返回的内容: {content[:500]}...")
+        print(f"智谱AI 返回的内容: {content[:500]}...")
         sys.exit(1)
     except Exception as e:
         print(f"错误: {type(e).__name__} - {e}")
@@ -141,7 +142,7 @@ def run_claude_skill():
 
 def main():
     """主函数"""
-    run_claude_skill()
+    run_zhipuai_skill()
 
 
 if __name__ == "__main__":

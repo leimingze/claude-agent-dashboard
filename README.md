@@ -1,11 +1,11 @@
-# 🤖 Claude Agent Dashboard
+# 🤖 智谱AI Agent Dashboard
 
-基于 GitHub Actions 和 Claude Agent Skills 的云端自动化信息获取与展示系统。
+基于 GitHub Actions 和智谱AI GLM 模型的云端自动化信息获取与展示系统。
 
 ## ✨ 功能特性
 
 - ⏰ **定时自动运行**: 通过 GitHub Actions 每 6 小时自动运行一次
-- 🤖 **AI 驱动**: 使用 Claude API 智能分析和总结信息
+- 🤖 **AI 驱动**: 使用智谱AI GLM-4 模型智能分析和总结信息
 - 📊 **可视化展示**: 自动生成美观的网页报告
 - 🚀 **零成本**: 完全基于 GitHub 免费服务
 - 📱 **响应式设计**: 支持手机、平板、电脑等多端访问
@@ -14,12 +14,12 @@
 ## 🏗️ 项目结构
 
 ```
-claude-agent-dashboard/
+zhipuai-agent-dashboard/
 ├── .github/
 │   └── workflows/
 │       └── update-dashboard.yml    # GitHub Actions 工作流配置
 ├── scripts/
-│   ├── run_skill.py                # Claude Skill 执行脚本
+│   ├── run_skill.py                # 智谱AI Agent 执行脚本
 │   └── generate_html.py             # HTML 生成脚本
 ├── data/
 │   ├── results.json                # 最新结果数据
@@ -46,9 +46,9 @@ claude-agent-dashboard/
 
    | 名称 | 值 |
    |------|-----|
-   | `ANTHROPIC_API_KEY` | 你的 Claude API Key |
+   | `ZHIPUAI_API_KEY` | 你的智谱AI API Key |
 
-> 💡 获取 Claude API Key: 访问 [Anthropic Console](https://console.anthropic.com/)
+> 💡 获取智谱AI API Key: 访问 [智谱AI开放平台](https://open.bigmodel.cn/)
 
 ### 3. 启用 GitHub Pages
 
@@ -87,7 +87,7 @@ https://YOUR_USERNAME.github.io/claude-agent-dashboard/
 pip install -r requirements.txt
 
 # 设置环境变量
-export ANTHROPIC_API_KEY='your-api-key'
+export ZHIPUAI_API_KEY='your-api-key'
 
 # 运行数据获取脚本
 python scripts/run_skill.py
@@ -119,7 +119,7 @@ Cron 格式说明:
 
 ### 修改 Prompt 模板
 
-编辑 `scripts/run_skill.py` 中的 `load_prompt_template()` 函数，修改你想要 Claude 执行的任务。
+编辑 `scripts/run_skill.py` 中的 `load_prompt_template()` 函数，修改你想要智谱AI执行的任务。
 
 ### 修改页面样式
 
@@ -130,7 +130,7 @@ Cron 格式说明:
 ### 工作流运行失败
 
 1. 检查 Actions 标签下的运行日志
-2. 确认 `ANTHROPIC_API_KEY` 是否正确设置
+2. 确认 `ZHIPUAI_API_KEY` 是否正确设置
 3. 检查 API Key 是否有足够的额度
 
 ### 页面显示异常
@@ -139,7 +139,7 @@ Cron 格式说明:
 2. 检查 Source 是否设置为 `GitHub Actions`
 3. 等待工作流完成后再访问
 
-### Claude API 调用失败
+### 智谱AI API 调用失败
 
 1. 确认 API Key 有效
 2. 检查 API 使用额度
@@ -155,8 +155,8 @@ MIT License
 
 ## 💡 灵感
 
-本项目灵感来自 n8n 的自动化方案，使用 GitHub Actions 和 Claude Agent Skills 实现了完全云端运行的自动化工作流。
+本项目灵感来自 n8n 的自动化方案，使用 GitHub Actions 和智谱AI GLM 模型实现了完全云端运行的自动化工作流。
 
 ---
 
-**Made with ❤️ using Claude Agent Skills & GitHub Actions**
+**Made with ❤️ using 智谱AI & GitHub Actions**
